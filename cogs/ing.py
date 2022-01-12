@@ -10,10 +10,10 @@ class ing(commands.Cog):
 
 
     @commands.command()
-    async def ing(self, ctx):
+    async def tr(self, ctx):
         tr = Translator()
-        tren = tr.translate('help', dest='es')
-        await ctx.send(tren.text)
+        trf = tr.translate(ctx.message.content[3:], dest='es')
+        await ctx.send(ctx.message.content[3:] + ' = ' + trf.text)
 
 
 
