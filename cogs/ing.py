@@ -15,6 +15,13 @@ class ing(commands.Cog):
         trf = tr.translate(ctx.message.content[3:], dest='es')
         await ctx.send(ctx.message.content[3:] + ' = ' + trf.text)
 
+    @commands.command()
+    async def hts (self, ctx):
+        ln = ctx.message.content[3:]
+        tr = Translator()
+        trf = tr.translate(ctx.message.content[3:], dest='')
+        await ctx.send(ctx.message.content[3:] + ' = ' + trf.text)
+
 
 
 
