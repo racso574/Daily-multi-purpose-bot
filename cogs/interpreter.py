@@ -1,20 +1,24 @@
 import discord
 from discord.ext import commands
 from googletrans import Translator
+import time
 
 
 
 class interpreter(commands.Cog):
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
 
     @commands.command()
     async def tr(self, ctx):
         tr = Translator()
         trf = tr.translate(ctx.message.content[3:], dest='es')
-        await ctx.send(ctx.message.content[3:] + ' = ' + trf.text)
+        ms = await ctx.send(ctx.message.content[3:] + ' = ' + trf.text)
+        await ms.add_reaction('✅')
+
+
 
     @commands.command()
     async def hts(self, ctx):
@@ -41,11 +45,8 @@ class interpreter(commands.Cog):
         await ctx.send(embed=embed)
 
 
-
-
-
-def setup(client):
-    client.add_cog(interpreter(client))
+def setup(bot):
+    bot.add_cog(interpreter(bot))
 
 
 
