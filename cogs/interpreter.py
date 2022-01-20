@@ -1,7 +1,9 @@
 import discord
 from discord.ext import commands
 from googletrans import Translator
+from openpyxl import load_workbook
 import time
+
 
 
 
@@ -12,11 +14,26 @@ class interpreter(commands.Cog):
 
 
     @commands.command()
-    async def tr(self, ctx):
+    async def tr(self, ctx, reaction,):
         tr = Translator()
         trf = tr.translate(ctx.message.content[3:], dest='es')
         ms = await ctx.send(ctx.message.content[3:] + ' = ' + trf.text)
-        await ms.add_reaction('✅')
+        await ms.add_reaction('💾')
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self, payload):
+        channel = await self.bot.fetch_channel(payload.channel_id)
+        message = await channel.fetch_message(payload.message_id)
+        user = await self.bot.fetch_user(payload.user_id)
+        emoji = payload.emoji
+        xl = load_workbook('./cogs/db/ing.xlsx')
+        edit = xl['Sheet1']
+        c1 = int(edit['b1'].value)
+        if channel.id == 927666821761495133 and user.id != 864541492281868320:
+            edit.cell(row=int(c1), column=1).value = str(message.content)
+            await message.add_reaction('✅')
+            edit['b1'].value = c1 + 1
+            xl.save('./cogs/db/ing.xlsx')
 
 
 
