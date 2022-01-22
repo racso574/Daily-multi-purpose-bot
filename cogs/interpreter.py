@@ -3,6 +3,7 @@ from discord.ext import commands
 from googletrans import Translator
 from openpyxl import load_workbook
 import time
+from random import randint, choice
 
 
 
@@ -29,11 +30,13 @@ class interpreter(commands.Cog):
         xl = load_workbook('./cogs/db/ing.xlsx')
         edit = xl['Sheet1']
         c1 = int(edit['b1'].value)
-        if channel.id == 927666821761495133 and user.id != 864541492281868320:
+        r = str([edit.cell(row=i, column=1).value for i in range(1, 1000)])
+        if channel.id == 927666821761495133 and user.id != 864541492281868320 and message.content not in r:
             edit.cell(row=int(c1), column=1).value = str(message.content)
             await message.add_reaction('✅')
             edit['b1'].value = c1 + 1
             xl.save('./cogs/db/ing.xlsx')
+            print(r)
 
 
 
@@ -60,6 +63,29 @@ class interpreter(commands.Cog):
         embed.add_field(name="la", value='latin', inline=False)
         embed.add_field(name="pt", value='portuguese', inline=False)
         await ctx.send(embed=embed)
+
+
+    @commands.command()
+    async def wl(self, ctx):
+        xl = load_workbook('./cogs/db/ing.xlsx')
+        edit = xl['Sheet1']
+        v1 = int(edit['b1'].value)
+        v1f = v1 - 1
+        v2 = int(edit['b2'].value)
+        vx = str([edit.cell(row=v2, column=1).value ])
+        if v1f != v2:
+            print(vx, 'hola')
+            await ctx.send(vx)
+            edit['b2'].value = v2 + 1
+            xl.save('./cogs/db/ing.xlsx')
+            await self.wl(self, ctx)
+        else:
+            edit['b2'].value = 1
+            xl.save('./cogs/db/ing.xlsx')
+
+
+
+
 
 
 def setup(bot):
