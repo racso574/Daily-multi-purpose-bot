@@ -1,26 +1,24 @@
 import os
 import discord
 from dotenv import load_dotenv
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 
 
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-
-client = discord.Client()
-
-client = commands.Bot(command_prefix='')
+bot = commands.Bot(command_prefix='', case_insensitive=True)
+bot.remove_command('help')
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print(f'{client.user} uwu')
+    print(f'{bot.user} uwu')
 
 
 for filename in os.listdir('./cogs'):
     if filename.endswith('.py'):
-        client.load_extension(f'cogs.{filename[:-3]}')
+        bot.load_extension(f'cogs.{filename[:-3]}')
 
-client.run(TOKEN)
+bot.run(TOKEN)
