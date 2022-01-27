@@ -69,7 +69,7 @@ class misiones(commands.Cog):
             embed.add_field(name=n4, value=i4, inline=False)
             embed.add_field(name=n5, value=i5, inline=False)
 
-            await message.edit(content=embed)
+            await message.edit(embed=embed)
 
 
 
