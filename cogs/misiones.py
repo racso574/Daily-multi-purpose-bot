@@ -18,6 +18,13 @@ class misiones(commands.Cog):
         xl = load_workbook('./cogs/db/misiones.xlsx')
         edit = xl['Sheet1']
 
+        edit['b1'].value = 1
+        edit['b2'].value = 2
+        edit['b3'].value = 3
+        edit['b4'].value = 4
+        edit['b5'].value = 5
+        xl.save('./cogs/db/misiones.xlsx')
+
         n1 = int('1')
         n2 = int('2')
         n3 = int('3')
@@ -37,8 +44,8 @@ class misiones(commands.Cog):
         embed.add_field(name=n4, value=i4, inline=False)
         embed.add_field(name=n5, value=i5, inline=False)
         ms = await ctx.send(embed=embed)
-        await ms.add_reaction('◀️')
-        await ms.add_reaction('▶️')
+        await ms.add_reaction('◀')
+        await ms.add_reaction('▶')
 
 
     @commands.Cog.listener()
@@ -49,18 +56,29 @@ class misiones(commands.Cog):
         emoji = payload.emoji
         xl = load_workbook('./cogs/db/misiones.xlsx')
         edit = xl['Sheet1']
+
+
+
+
         if channel.id == 935238981887619123 and user.id != 864541492281868320:
-            n1 = int('6')
-            n2 = int('7')
-            n3 = int('8')
-            n4 = int('9')
-            n5 = int('10')
+            print(emoji)
+
+            n1 = int(edit['b1'].value) + 5
+            n2 = int(edit['b2'].value) + 5
+            n3 = int(edit['b3'].value) + 5
+            n4 = int(edit['b4'].value) + 5
+            n5 = int(edit['b5'].value) + 5
+            xl.save('./cogs/db/misiones.xlsx')
+            xl = load_workbook('./cogs/db/misiones.xlsx')
+            edit = xl['Sheet1']
 
             i1 = str([edit.cell(row=n1, column=1).value])
             i2 = str([edit.cell(row=n2, column=1).value])
             i3 = str([edit.cell(row=n3, column=1).value])
             i4 = str([edit.cell(row=n4, column=1).value])
             i5 = str([edit.cell(row=n5, column=1).value])
+
+
 
             embed = discord.Embed(title="MISIONES", description=f"")
             embed.add_field(name=n1, value=i1, inline=False)
